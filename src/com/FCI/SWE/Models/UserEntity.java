@@ -44,6 +44,7 @@ public class UserEntity {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		
 
 	}
 
@@ -58,6 +59,7 @@ public class UserEntity {
 	public String getPass() {
 		return password;
 	}
+
 
 	/**
 	 * 
@@ -114,6 +116,7 @@ public class UserEntity {
 
 		return null;
 	}
+	
 
 	/**
 	 * This method will be used to save user object in datastore
@@ -135,6 +138,41 @@ public class UserEntity {
 		datastore.put(employee);
 
 		return true;
+
+	}
+	public void sendfriendrequest(String uname, String fname) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("friendrequest");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+
+		Entity friendrequest = new Entity("friendrequest", list.size() + 1);
+		
+		friendrequest.setProperty("sendername", this.name);
+		friendrequest.setProperty("friendname", fname);
+		friendrequest.setProperty("status", false);
+		datastore.put(friendrequest);
+
+		return ;
+
+	}
+	public static boolean acceptFriendRequest(String name, String pass, String fname) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("friendrequest");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			System.out.println(entity.getProperty("name").toString());
+			if (entity.getProperty("name").toString().equals(name)
+					&& entity.getProperty("password").toString().equals(pass) && entity.getProperty("friendname").toString().equals(fname)) {
+				 entity.getProperty("status").toString().equals(true);
+				return true;
+			}
+			
+		}
+		return false;
 
 	}
 }

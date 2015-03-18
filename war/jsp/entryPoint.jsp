@@ -9,5 +9,7 @@
 <body>
 <a href="/social/signup/">Sign up</a> <br>
 <a href="/social/login/">Login</a> <br>
+
+
 </body>
 </html>

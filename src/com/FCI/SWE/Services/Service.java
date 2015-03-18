@@ -1,4 +1,4 @@
-package com.FCI.SWE.Services;
+ package com.FCI.SWE.Services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,6 +68,38 @@ public class Service {
 		user.saveUser();
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");
+		return object.toString();
+	}
+	@POST
+	@Path("/sendfriendrequest")
+	public String sendFriendRequest(@FormParam("uname") String uname,
+			@FormParam("fname") String friendname, @FormParam("password") String pass) {
+		UserEntity user = UserEntity.getUser(uname, pass);
+		JSONObject object = new JSONObject();
+		if (user == null) {
+			object.put("Status", "Failed");
+
+		} else {
+			object.put("Status", "OK");
+			user.sendfriendrequest( uname,friendname);
+		}
+
+		return object.toString();
+	}
+	@POST
+	@Path("/acceptFriendRequest")
+	public String acceptFriendRequest(@FormParam("uname") String uname,
+			@FormParam("fname") String friendname, @FormParam("password") String pass) {
+		UserEntity user = UserEntity.getUser(uname, pass);
+		JSONObject object = new JSONObject();
+		if (user == null) {
+			object.put("Status", "Failed");
+
+		} else {
+			object.put("Status", "OK");
+			user.acceptFriendRequest( uname,pass,friendname);
+		}
+
 		return object.toString();
 	}
 
