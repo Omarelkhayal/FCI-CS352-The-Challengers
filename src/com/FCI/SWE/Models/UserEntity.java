@@ -1,5 +1,6 @@
 package com.FCI.SWE.Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -157,6 +158,40 @@ public class UserEntity {
 		return ;
 
 	}
+	public void sendfriendmessage(String uname, String fname, String content) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("sendmessage");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+
+		Entity friendmessage = new Entity("sendmessage", list.size() + 1);
+		
+		friendmessage.setProperty("sendername", this.name);
+		friendmessage.setProperty("friendname", fname);
+		friendmessage.setProperty("content", content);
+		datastore.put(friendmessage);
+
+		return ;
+
+	}
+	public void sendgroupdmessage(String uname, ArrayList<String>friends, String content) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("groupmessage");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+
+		Entity groupmessage = new Entity("groupmessage", list.size() + 1);
+		
+		groupmessage.setProperty("sendername", this.name);
+		groupmessage.setProperty("friendname", friends.toString());
+		groupmessage.setProperty("content", content);
+		datastore.put(groupmessage);
+
+		return ;
+
+	}
 	public static boolean acceptFriendRequest(String name, String pass, String fname) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -173,6 +208,11 @@ public class UserEntity {
 			
 		}
 		return false;
-
 	}
 }
+
+	
+	//string ddbgylak
+	//dbgylak=dbgylak.substr(,dbgylak.length-1)
+	//dbgylak=dbgylak.replace(" ","");
+	//arraylist nwll=bdgylak.split(",")
