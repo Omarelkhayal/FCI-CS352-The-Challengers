@@ -175,23 +175,7 @@ public class UserEntity {
 		return ;
 
 	}
-	public void sendgroupdmessage(String uname, ArrayList<String>friends, String content) {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Query gaeQuery = new Query("groupmessage");
-		PreparedQuery pq = datastore.prepare(gaeQuery);
-		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
-
-		Entity groupmessage = new Entity("groupmessage", list.size() + 1);
-		
-		groupmessage.setProperty("sendername", this.name);
-		groupmessage.setProperty("friendname", friends.toString());
-		groupmessage.setProperty("content", content);
-		datastore.put(groupmessage);
-
-		return ;
-
-	}
+	
 	public static boolean acceptFriendRequest(String name, String pass, String fname) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
